@@ -1,36 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TenEdu
 
-## Getting Started
+**A Kazakh-language digital literacy platform for people who are new to computers and the internet.**
 
-First, run the development server:
+TenEdu ("Теңеду" — "to become equal" in Kazakh) teaches basic digital skills in Kazakh, step by step: using a smartphone, staying safe online, government e-services and more. It is built to be accessible and to work on weak connections.
+
+> **Status:** working prototype. Not yet tested with real learners.
+
+<!-- Add 2–4 screenshots here, e.g. docs/screenshots/catalog.png, module.png, certificate.png -->
+<!-- ![Course catalog](docs/screenshots/catalog.png) -->
+
+---
+
+## Why
+
+Most digital literacy courses in Kazakhstan are in Russian or English, and many assume the learner already knows how to use a computer. TenEdu starts from zero, in Kazakh.
+
+## Features
+
+- **Learning tracks and modules** — 4 tracks, 12+ modules, with progress tracking <!-- check the numbers against the content -->
+- **Three languages** — Kazakh (main), Russian and English (`next-intl`)
+- **Accessibility first** — built toward WCAG 2.1 AAA: keyboard navigation, screen-reader labels, high contrast <!-- keep only what is really implemented; see A11Y_IMPROVEMENTS.md -->
+- **Works offline** — installable PWA with cached lessons
+- **Certificates** — PDF certificate generated after finishing a track
+- **Dashboard and profile** — learner progress in one place
+- **Admin panel** — content managed by admins
+
+## Tech stack
+
+| Part | Tools |
+|---|---|
+| Frontend | Next.js (App Router), React, TypeScript, Tailwind CSS |
+| Backend and auth | Supabase (Postgres, Auth, Row Level Security) |
+| Internationalization | next-intl (kk / ru / en) |
+| Offline | PWA (service worker) |
+| Certificates | jsPDF, html2canvas |
+| Testing | Vitest (unit), Playwright (end-to-end) |
+
+## Getting started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/erkezhanab/TenEdu.git
+cd TenEdu
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. Create a free project at [supabase.com](https://supabase.com).
+2. In the Supabase **SQL Editor**, run `supabase-setup.sql` to create the tables and access rules.
+3. Create `.env.local` in the project root:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+   ```
+   NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Start the app:
 
-## Learn More
+   ```bash
+   npm run dev
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+   Open http://localhost:3000.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+See `ADMIN_SETUP.md` to create an admin account and `DEPLOYMENT.md` to deploy.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Tests
 
-## Deploy on Vercel
+```bash
+npm test                 # unit tests (Vitest)
+npx playwright test      # end-to-end tests
+```
+<!-- run the tests and write the real number here, e.g. "89 tests passing" -->
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Project structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+src/
+  app/[locale]/   pages: landing, login, register, catalog, modules, dashboard, profile
+  components/     UI: courses, dashboard, onboarding
+  hooks/          shared React hooks
+supabase/         Supabase config
+supabase-setup.sql  database schema and access rules
+```
+
+## Roadmap
+
+- [ ] Pilot with real learners
+- [ ] More modules <!-- which ones? -->
+- [ ] Audio lessons for learners who read slowly <!-- replace with your real plans -->
+
+## Author
+
+**Yerkezhan Abil** — founder and developer · erkezhanabil@gmail.com · [LinkedIn](https://www.linkedin.com/in/erkezhanabil)
